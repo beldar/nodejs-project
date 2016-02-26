@@ -8,15 +8,15 @@ There is a branch for each session, and master will contain the latest.
 
 Just run
 
-  npm install
+`npm install`
 
 ## Run
 
 Execute
 
-  node app.js
+`node app.js`
 
 
 Or if you are developing and want your files to be watched and reload run
 
-  npm start
+`npm start`

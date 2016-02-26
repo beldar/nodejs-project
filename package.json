@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-project",
+  "version": "0.0.1",
+  "description": "My awesome Node.js project",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon -e js -w ./ ./app.js",
+    "prestart": "echo '---- Watching app.js file ----'"
+  },
+  "author": "Marti Planellas <marti.planellas@sainsburys.co.uk>",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.4.1",
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.8.1"
+  }
+}

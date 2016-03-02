@@ -11,10 +11,10 @@ module.exports = () => {
       //Get all PRs
       PR.find((err, prs) => {
         if (err) {
-          res.status(500).json({error: err});
-        } else {
-          res.json(prs);
+          return res.status(500).json({error: err});
         }
+
+        res.json(prs);
       });
     })
     .post('/', (req, res, next) => {
@@ -23,24 +23,71 @@ module.exports = () => {
 
       pr.save((err) => {
         if (err) {
-          res.status(500).json({error: err});
-        } else {
-          res.json({message: 'PR created!'});
+          return res.status(500).json({error: err});
         }
+
+        res.status(201).json({message: 'PR created!'});
       });
     })
     .get('/:pr_id', (req, res, next) => {
+      //Get a single PR
       let pr_id = req.params.pr_id;
-
-      console.log('id', pr_id);
 
       PR.findById(pr_id, (err, doc) => {
         if (err) {
-          res.status(403).json({error: err});
-        } else {
-          res.json(doc);
+          return res.status(500).json({error: err});
         }
+        if (!doc){
+          return res.status(404).json({error: 'PR not found'});
+        }
+
+        res.json(doc);
+      });
+    })
+    .put('/:pr_id', (req, res, next) => {
+      //Update a single PR
+      let pr_id = req.params.pr_id;
+
+      PR.findById(pr_id, (err, doc) => {
+        if (err) {
+          return res.status(500).json({error: err});
+        }
+        if (!doc){
+          return res.status(404).json({error: 'PR not found'});
+        }
+
+        let updated = req.body.pr;
+        Object.assign(doc, updated);
+
+        doc.save((err) => {
+          if (err) {
+            return res.status(500).json({error: err});
+          }
+
+          res.json(doc);
+        });
       })
+    })
+    .delete('/:pr_id', (req, res, next) => {
+      //Delete a single PR
+      let pr_id = req.params.pr_id;
+
+      PR.findById(pr_id, (err, doc) => {
+        if (err) {
+          return res.status(500).json({error: err});
+        }
+        if (!doc){
+          return res.status(404).json({error: 'PR not found'});
+        }
+
+        doc.remove((err) => {
+          if (err) {
+            return res.status(500).json({error: err});
+          }
+
+          res.json({message: 'PR removed correctly'});
+        });
+      });
     });
 
   return router;
